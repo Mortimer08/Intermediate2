@@ -1,7 +1,7 @@
 package org.example.Lottery;
 
-import org.example.Toy;
-import org.example.ToyStorage;
+import org.example.Toys.Toy;
+import org.example.Toys.ToyStorage;
 
 import java.util.Random;
 
