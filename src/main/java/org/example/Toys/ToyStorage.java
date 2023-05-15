@@ -7,35 +7,40 @@ public class ToyStorage implements Iterable<Toy> {
     private ArrayList<ToyBox> toyBoxes;
 
     public ToyStorage() {
-        comparator = new ToyChanceComparator();
+        comparator = new ToyBoxChanceComparator();
+        toyBoxes = new ArrayList<>();
     }
 
     public void addToy(Toy toy) {
-        for (ToyBox toyBox: toyBoxes) {
-            if (toyBox.getToy().equals(toy)){
-                toyBox.incQuantity();
-                break;
+        if (!toyBoxes.isEmpty()) {
+            for (ToyBox toyBox : toyBoxes) {
+                if (!(toyBox.getToy() == null) && toyBox.getToy().equals(toy)) {
+                    toyBox.incQuantity();
+                    break;
+                }
             }
         }
-        toyBoxes.add(new ToyBox(toy,1));
+        toyBoxes.add(new ToyBox(toy, 1));
     }
+
     public void addToy(Toy toy, int quantity) {
-        for (ToyBox toyBox: toyBoxes) {
-            if (toyBox.getToy().equals(toy)){
+        for (ToyBox toyBox : toyBoxes) {
+            if (toyBox.getToy().equals(toy)) {
                 toyBox.setQuantity(quantity);
                 break;
             }
         }
-        toyBoxes.add(new ToyBox(toy,quantity));
+        toyBoxes.add(new ToyBox(toy, quantity));
     }
 
 
     public Toy pullToy(Toy toy) {
-        for (ToyBox toyBox: toyBoxes) {
-            if (toyBox.getToy().equals(toy)){
-                if(toyBox.decQuantity()){
+        for (ToyBox toyBox : toyBoxes) {
+            if (toyBox.getToy().equals(toy)) {
+                if (toyBox.decQuantity()) {
                     this.toyBoxes.remove(toy);
-                };
+                }
+                ;
                 return toy;
             }
         }
@@ -72,7 +77,7 @@ public class ToyStorage implements Iterable<Toy> {
         return storageString.toString();
     }
 
-    class ToyStorageIterator implements Iterator<Toy> {
+    class ToyStorageIterator implements Iterator<ToyBox> {
         private int iteratorIndex = 0;
 
         @Override
@@ -81,13 +86,13 @@ public class ToyStorage implements Iterable<Toy> {
         }
 
         @Override
-        public Toy next() {
-            return toyBoxes.get(iteratorIndex++).getToy();
+        public ToyBox next() {
+            return toyBoxes.get(iteratorIndex++);
         }
     }
 
     @Override
-    public Iterator<Toy> iterator() {
+    public Iterator<ToyBox> iterator() {
         return new ToyStorageIterator();
     }
 }
