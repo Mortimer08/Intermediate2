@@ -7,16 +7,19 @@ public class ToyBox {
     public ToyBox() {
 
     }
-
+    public ToyBox(Toy toy) {
+        this.toy = toy;
+    }
     public ToyBox(Toy toy, int quantity) {
-        this.addToys(toy, quantity);
+        this.toy = toy;
+        this.addToys(quantity);
     }
 
-    public void addToy(Toy toy) {
+    public void addToy() {
         this.quantity++;
     }
 
-    public void addToys(Toy toy, int quantity) {
+    public void addToys(int quantity) {
         this.quantity += quantity;
     }
 
@@ -27,7 +30,9 @@ public class ToyBox {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-
+    public int getQuantity() {
+        return quantity;
+    }
     public void incQuantity() {
         this.quantity++;
     }

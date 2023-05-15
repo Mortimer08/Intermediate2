@@ -2,7 +2,7 @@ package org.example.Toys;
 
 import java.util.*;
 
-public class ToyStorage implements Iterable<Toy> {
+public class ToyStorage implements Iterable<ToyBox> {
     private Comparator comparator;
     private ArrayList<ToyBox> toyBoxes;
 
@@ -12,25 +12,38 @@ public class ToyStorage implements Iterable<Toy> {
     }
 
     public void addToy(Toy toy) {
-        if (!toyBoxes.isEmpty()) {
-            for (ToyBox toyBox : toyBoxes) {
-                if (!(toyBox.getToy() == null) && toyBox.getToy().equals(toy)) {
-                    toyBox.incQuantity();
-                    break;
-                }
-            }
+        if (toyBoxes.isEmpty()) {
+            toyBoxes.add(new ToyBox(toy));
         }
-        toyBoxes.add(new ToyBox(toy, 1));
-    }
-
-    public void addToy(Toy toy, int quantity) {
         for (ToyBox toyBox : toyBoxes) {
             if (toyBox.getToy().equals(toy)) {
-                toyBox.setQuantity(quantity);
+                toyBox.addToy();
                 break;
             }
         }
-        toyBoxes.add(new ToyBox(toy, quantity));
+    }
+
+    public void addToy(Toy toy, int quantity) {
+//        System.out.println("Toy Adding");
+        if (toyBoxes.isEmpty()) {
+            toyBoxes.add(new ToyBox(toy, quantity));
+//            System.out.println("first box added");
+        } else {
+            for (ToyBox toyBox : this) {
+//                System.out.println(String.format("Toy in Box: %n%s", toyBox.getToy()));
+//                System.out.println(String.format("Toy to add: %n%s",  toy));
+                if (toyBox.getToy().equals(toy)) {
+//                    System.out.println("Совпадение");
+                    toyBox.addToys(quantity);
+                    break;
+                }
+
+            }
+            this.toyBoxes.add(new ToyBox(toy, quantity));
+//            System.out.println("New Box added");
+        }
+
+
     }
 
 
@@ -73,7 +86,9 @@ public class ToyStorage implements Iterable<Toy> {
         StringBuilder storageString = new StringBuilder();
         for (ToyBox toyBox : this.toyBoxes) {
             storageString.append(toyBox.getToy().toString());
+            storageString.append(String.format("Quantity: %d%n", toyBox.getQuantity()));
         }
+
         return storageString.toString();
     }
 
@@ -82,7 +97,7 @@ public class ToyStorage implements Iterable<Toy> {
 
         @Override
         public boolean hasNext() {
-            return iteratorIndex != toyBoxes.size();
+            return iteratorIndex < toyBoxes.size();
         }
 
         @Override
