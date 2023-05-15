@@ -1,51 +1,61 @@
 package org.example;
 
 import java.util.*;
-import java.util.function.Consumer;
 
 public class ToyStorage implements Iterable<Toy> {
-    //    private int storageId;
     private Comparator comparator;
-//    private Map<String, Toy> toys;
     private ArrayList<Toy> toysList;
-    private int iteratorIndex;
+    private ArrayList<ToyBox> toyBoxes;
 
     public ToyStorage() {
-//        toys = new HashMap<String, Toy>();
         toysList = new ArrayList<>();
         comparator = new ToyChanceComparator();
-        iteratorIndex = 0;
     }
 
     public void addToy(Toy toy) {
-//        if (toys.values().contains(toy)) {
-//            toy.setQuantity(toy.getQuantity() + 1);
-//        }
-//        toys.put(toy.getId(), toy);
+        if (toysList.contains(toy)) {
+            toy.incQuantity();
+        }
         toysList.add(toy);
     }
 
-//    public void putToy(Toy toy) {
-//
-//    }
-
-//    public Toy getToy(String id) {
-////        toys.
-//        return toys.get(id);
-//    }
+    public void addToy(Toy toy, int quantity) {
+        if (toysList.contains(toy)) {
+            toy.setQuantity(toy.getQuantity() + quantity);
+        }
+        toysList.add(toy);
+    }
 
     public Toy pullToy(Toy toy) {
-        toy.setQuantity(toy.getQuantity() - 1);
-        return toy;
+        if (toy.decQuantity()) {
+            this.deleteIfZeroQuantity(toy);
+            return toy;
+        }
+        return null;
     }
+
     public Toy pullLastToy() {
         toysList.sort(this.comparator);
-        Toy lastToy =toysList.get(toysList.size()-1);
-        lastToy.setQuantity(lastToy.getQuantity()-1);
-        return lastToy;
+        Toy lastToy = toysList.get(toysList.size() - 1);
+        if (lastToy.decQuantity()) {
+            return lastToy;
+        }
+        this.deleteIfZeroQuantity(lastToy);
+        return null;
     }
+
     public void sortByChance() {
         toysList.sort(comparator);
+    }
+
+    private void deleteIfZeroQuantity(Toy toy) {
+        if (toy.getQuantity() == 0) {
+            toysList.remove(toy);
+        }
+    }
+
+    public boolean isEmpty() {
+        return toysList.isEmpty();
     }
 
     @Override
@@ -58,6 +68,8 @@ public class ToyStorage implements Iterable<Toy> {
     }
 
     class ToyStorageIterator implements Iterator<Toy> {
+        private int iteratorIndex = 0;
+
         @Override
         public boolean hasNext() {
             return iteratorIndex != toysList.size();
@@ -73,9 +85,4 @@ public class ToyStorage implements Iterable<Toy> {
     public Iterator<Toy> iterator() {
         return new ToyStorageIterator();
     }
-//    public int getQuantity(Toy toy){
-//        int quantity;
-//        quantity = 1;
-//        return quantity;
-//    }
 }
