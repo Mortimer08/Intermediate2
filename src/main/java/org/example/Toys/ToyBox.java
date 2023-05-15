@@ -7,9 +7,11 @@ public class ToyBox {
     public ToyBox() {
 
     }
+
     public ToyBox(Toy toy) {
         this.toy = toy;
     }
+
     public ToyBox(Toy toy, int quantity) {
         this.toy = toy;
         this.addToys(quantity);
@@ -30,9 +32,11 @@ public class ToyBox {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
     public int getQuantity() {
         return quantity;
     }
+
     public void incQuantity() {
         this.quantity++;
     }

@@ -31,7 +31,6 @@ public class Lottery {
         for (ToyBox toyBox : this.toyStorage) {
             choncesCount += toyBox.getToy().getChance();
             if (choice <= choncesCount) {
-//                Toy prize = new Toy()
                 return toyStorage.pullToy(toyBox.getToy());
             }
         }

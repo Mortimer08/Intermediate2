@@ -21,7 +21,7 @@ public class PrizesQueue {
     }
 
     public void givePrize() throws IOException {
-        fw.write(String.valueOf(prisesQueue.getFirst()));
+        fw.write(String.valueOf(prisesQueue.pollFirst()));
         fw.flush();
     }
 }

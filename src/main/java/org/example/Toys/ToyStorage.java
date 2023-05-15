@@ -48,7 +48,7 @@ public class ToyStorage implements Iterable<ToyBox> {
 
 
     public Toy pullToy(Toy toy) {
-        for (ToyBox toyBox : toyBoxes) {
+        for (ToyBox toyBox : this) {
             if (toyBox.getToy().equals(toy)) {
                 if (toyBox.decQuantity()) {
                     this.toyBoxes.remove(toy);
