@@ -5,16 +5,33 @@ import org.example.Toys.ToyBox;
 import org.example.Toys.ToyStorage;
 
 import java.util.Random;
-
+/**
+ * Class Lottery
+ * {@code @autor} Ilya Makarov
+ */
 public class Lottery {
+    /**
+     * Поле ToyStorage
+     */
     ToyStorage toyStorage;
+    /**
+     * Поле prizesCounter
+     */
     int prizesCounter;
-
+    /**
+     * Конструктор с одним параметром
+     *
+     * @param toyStorage - ToyStorage, из которого будут выбипаться призы
+     */
     public Lottery(ToyStorage toyStorage) {
         this.toyStorage = toyStorage;
         this.prizesCounter = 0;
     }
-
+    /**
+     * Метод выбора приза
+     * @return Toy выбранноу из toyStorage по алгоритму случайного выбора
+     * с учётом "веса" выбора
+     */
     public Toy selectPrize() {
         if (toyStorage.isEmpty()) {
             return null;

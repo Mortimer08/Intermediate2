@@ -23,6 +23,10 @@ public class Main {
         ts.addToy(d, 1000);
         Lottery l = new Lottery(ts);
         PrizesQueue pq = new PrizesQueue();
+        /* Подсчёт поличества выигрышей конкретрой игрушки
+        для проверки корректности работы алгоритма случайного выбора
+        с учётом "веса"
+        */
         HashMap<String, Integer> results = new HashMap<>();
         for (ToyBox tb : ts) {
             results.put(tb.getToy().getName(), tb.getQuantity());
@@ -31,7 +35,7 @@ public class Main {
 
             Toy prize = l.selectPrize();
             pq.addPrize(prize);
-//            pq.givePrize();
+            pq.givePrize();
         }
         for (ToyBox tb : ts) {
             Integer previos = results.get(tb.getToy().getName());

@@ -1,16 +1,28 @@
 package org.example.Toys;
 
 import java.util.*;
-
+/**
+ * Class ToyStorage
+ * {@code @autor} Ilya Makarov
+ */
 public class ToyStorage implements Iterable<ToyBox> {
+    /** Поле comparator*/
     private Comparator comparator;
+    /** Поле списка ToyBox хранящихся в ToyStorage*/
     private ArrayList<ToyBox> toyBoxes;
-
+    /**
+     * Конструктор по умолчанию
+     */
     public ToyStorage() {
         comparator = new ToyBoxChanceComparator();
         toyBoxes = new ArrayList<>();
     }
-
+    /**
+     * Метод добавления Toy в ToyStorage - добавляет Toy в ToyBox
+     * с аналогичными Toy или создаёт новый ToyBox, если в ToyStorage
+     * нет ToyBox с аналогичными Toy
+     * @param toy - игрушка, передаваемая на хранение
+     */
     public void addToy(Toy toy) {
         if (toyBoxes.isEmpty()) {
             toyBoxes.add(new ToyBox(toy));
@@ -22,7 +34,13 @@ public class ToyStorage implements Iterable<ToyBox> {
             }
         }
     }
-
+    /**
+     * Метод добавления Toy в ToyStorage - добавляет Toy в колчиестве quantity
+     * в ToyBox с аналогичными Toy или создаёт новый ToyBox,
+     * если в ToyStorage нет ToyBox с аналогичными Toy
+     * @param toy - игрушка, передаваемая на хранение
+     * @param quantity - количество Toy передаваемых на хранение
+     */
     public void addToy(Toy toy, int quantity) {
 //        System.out.println("Toy Adding");
         if (toyBoxes.isEmpty()) {
@@ -46,27 +64,40 @@ public class ToyStorage implements Iterable<ToyBox> {
 
     }
 
-
+    /**
+     * Метод получения Toy из ToyStorage - извлекает Toy
+     * из ToyBox с аналогичными Toy,
+     * если из ToyBox извлечена последняя игрушка,
+     * ToyBox удаляется из ToyStorage
+     * @param toy - игрушка, извлекаемая из ToyStorage
+     * @return Toy
+     */
     public Toy pullToy(Toy toy) {
         for (ToyBox toyBox : this) {
             if (toyBox.getToy().equals(toy)) {
                 if (toyBox.decQuantity()) {
-                    this.toyBoxes.remove(toy);
-                }
-                ;
+                    this.toyBoxes.remove(toyBox);
+                };
                 return toy;
             }
         }
         return null;
     }
-
+    /**
+     * Метод получения Toy из последнего ToyBox в ToyStorage
+     * извлекает Toy из ToyBox с игрушками с наименьшим шансом быть выигранными в лотерею
+     * @return Toy
+     */
     public Toy pullLastToy() {
         toyBoxes.sort(this.comparator);
         Toy lastToy = toyBoxes.get(toyBoxes.size() - 1).getToy();
         this.pullToy(lastToy);
         return lastToy;
     }
-
+    /**
+     * Метод сортировки ToyBox в по убыванию шанса игрушки, хранящейся в ToyBox
+     * быть выигранными в лотерею
+     */
     public void sortByChance() {
         toyBoxes.sort(comparator);
     }
@@ -76,11 +107,16 @@ public class ToyStorage implements Iterable<ToyBox> {
 //            toysList.remove(toy);
 //        }
 //    }
-
+    /**
+     * Метод проверки наполнения ToyStorage
+     * Возавращает true если в ToyStorage нет ни одного ToyBox
+     */
     public boolean isEmpty() {
         return toyBoxes.isEmpty();
     }
-
+    /**
+     * Прегрузка метод получения строкового отображения обекта ToyStorage
+     */
     @Override
     public String toString() {
         StringBuilder storageString = new StringBuilder();
@@ -91,7 +127,6 @@ public class ToyStorage implements Iterable<ToyBox> {
 
         return storageString.toString();
     }
-
     class ToyStorageIterator implements Iterator<ToyBox> {
         private int iteratorIndex = 0;
 
